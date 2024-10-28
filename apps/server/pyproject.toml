@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "ar-blog-server"
+version = "0.1.0"
+description = "Ar-Blog backend server"
+authors = ["Your Name"]
+packages = [{include = "app"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.104.0"
+uvicorn = "^0.24.0"
+motor = "^3.3.1"
+beanie = "^1.23.0"
+pydantic = {extras = ["email"], version = "^2.4.2"}
+pydantic-settings = "^2.0.3"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"
+alembic = "^1.12.1"
+email-validator = "^2.1.0"
+bcrypt = "4.0.1"  # 固定 bcrypt 版本
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+black = "^23.10.1"
+isort = "^5.12.0"

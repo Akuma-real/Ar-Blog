@@ -1,0 +1,11 @@
+ar-blog/
+├── apps/
+│   ├── server/        # 后端服务
+│   └── web/          # 前端应用
+├── packages/         # 共享包
+│   ├── api-client/   # API 客户端SDK
+│   ├── common/      # 共享工具和类型
+│   └── ui/          # 共享UI组件
+├── pnpm-workspace.yaml
+├── turbo.json
+└── package.json
