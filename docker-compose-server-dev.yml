@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: ar-blog-mongodb-dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ar-blog-dev
+    # 添加健康检查
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    # 添加重启策略
+    restart: always
+
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile.dev
+    container_name: ar-blog-server-dev
+    volumes:
+      - ./apps/server:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://ar-blog-mongodb-dev:27017
+      - MONGODB_DB_NAME=server
+      - SECRET_KEY=your-dev-secret-key-here
+    depends_on:
+      mongodb:
+        condition: service_healthy  # 等待 MongoDB 健康检查通过
+    networks:
+      - ar-blog-dev
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: always
+
+networks:
+  ar-blog-dev:
+    name: ar-blog-dev
+
+volumes:
+  mongodb_data:
+    name: ar-blog-mongodb-dev-data

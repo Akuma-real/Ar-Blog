@@ -6,7 +6,7 @@ authors = ["Your Name"]
 packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 fastapi = "^0.104.0"
 uvicorn = "^0.24.0"
 motor = "^3.3.1"
@@ -18,7 +18,7 @@ passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 python-multipart = "^0.0.6"
 alembic = "^1.12.1"
 email-validator = "^2.1.0"
-bcrypt = "4.0.1"  # 固定 bcrypt 版本
+bcrypt = "4.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"

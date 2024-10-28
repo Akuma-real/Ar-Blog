@@ -1,0 +1,36 @@
+# 使用镜像加速
+FROM hub.june.ink/library/python:3.11-alpine
+
+WORKDIR /app
+
+# 安装系统依赖和 SSL 证书
+RUN apk add --no-cache \
+    gcc \
+    musl-dev \
+    python3-dev \
+    libffi-dev \
+    openssl-dev \
+    cargo \
+    make \
+    ca-certificates \
+    && update-ca-certificates
+
+# 设置 pip 源为国内镜像
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 安装 poetry
+RUN pip install --no-cache-dir poetry
+
+# 复制项目文件
+COPY pyproject.toml ./
+
+# 导出依赖到 requirements.txt
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+# 使用 pip 安装依赖
+RUN pip install -r requirements.txt
+
+# 暴露端口
+EXPOSE 8000
+
+# 启动命令在 docker-compose 中指定
